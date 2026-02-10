@@ -1,6 +1,13 @@
 #ifndef STATE_AMR_H
 #define STATE_AMR_H
+#include <string>
 // state design pattern + singleton
+enum class AMRStateType{
+    IDLE,
+    BUSY,
+    ERROR
+};
+
 class StateAMR;
 class IStateAMR
 {
