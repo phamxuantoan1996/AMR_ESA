@@ -1,8 +1,13 @@
 #include <iostream>
 #include "state_mission.h"
+#include "amr_events.h"
+#include "event_bus.h"
+
 
 //StateMission
-StateMission::StateMission():state_(&CreateStateMission::instance()){}
+StateMission::StateMission():state_(&CreateStateMission::instance()),current_state_type_(MissionStateType::Create){
+    state_->onEnter();
+}
 void StateMission::create()
 {
     state_->create();
@@ -29,12 +34,13 @@ void StateMission::changeState(IStateMission& newState)
     {
         return;
     }
+    MissionStateType old_ = current_state_type_;
     state_->onExit();
     state_ = &newState;
     newState.onEnter();
-    current_state_type_ = newState.getType();
+    current_state_type_ = state_->getType();
+    EventBus::instance().publish(MissionStateChangedEvent{old_, current_state_type_});
 }
-
 
 // CreateStateMission
 CreateStateMission& CreateStateMission::instance()

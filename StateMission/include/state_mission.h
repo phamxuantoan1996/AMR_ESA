@@ -1,16 +1,8 @@
-#ifndef STATE_AMR_H
-#define STATE_AMR_H
+#ifndef STATE_MISSION_H
+#define STATE_MISSION_H
 
 #include <iostream>
-
-enum class StateMissionType
-{
-    Create,
-    ExecuteJob,
-    Complete,
-    Fail,
-    Pause
-};
+#include "state_types.h"
 
 class StateMission;
 class IStateMission{
@@ -40,14 +32,14 @@ class IStateMission{
 
         virtual void onEnter() = 0;
         virtual void onExit() = 0;
-        virtual StateMissionType getType() const = 0;
+        virtual MissionStateType getType() const = 0;
         virtual ~IStateMission() = default; 
 };
 
 class StateMission{
     private:
         IStateMission *state_;
-        StateMissionType current_state_type_;
+        MissionStateType current_state_type_;
     public:
         StateMission();
         void create();
@@ -68,8 +60,8 @@ class CreateStateMission : public IStateMission {
         void onExit() override {
             std::cout << "Exiting Create State\n";
         }
-        virtual StateMissionType getType() const override {
-            return StateMissionType::Create;
+        virtual MissionStateType getType() const override {
+            return MissionStateType::Create;
         }
 };
 
@@ -83,8 +75,8 @@ class ExecuteJobStateMission : public IStateMission {
         void onExit() override {
             std::cout << "Exiting Execute Job State\n";
         }
-        virtual StateMissionType getType() const override {
-            return StateMissionType::ExecuteJob;
+        virtual MissionStateType getType() const override {
+            return MissionStateType::ExecuteJob;
         }
 };
 
@@ -98,8 +90,8 @@ class CompleteStateMission : public IStateMission {
         void onExit() override {
             std::cout << "Exiting Complete State\n";
         }
-        virtual StateMissionType getType() const override {
-            return StateMissionType::Complete;
+        virtual MissionStateType getType() const override {
+            return MissionStateType::Complete;
         }
 };
 
@@ -113,8 +105,8 @@ class FailStateMission : public IStateMission {
         void onExit() override {
             std::cout << "Exiting Fail State\n";
         }
-        virtual StateMissionType getType() const override {
-            return StateMissionType::Fail;
+        virtual MissionStateType getType() const override {
+            return MissionStateType::Fail;
         }
 };
 
@@ -128,8 +120,8 @@ class PauseStateMission : public IStateMission {
         void onExit() override {
             std::cout << "Exiting Pause State\n";
         }
-        virtual StateMissionType getType() const override {
-            return StateMissionType::Pause;
+        virtual MissionStateType getType() const override {
+            return MissionStateType::Pause;
         }
 };
 
