@@ -8,6 +8,8 @@ project(StateAMR
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Find dependency
+
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
@@ -23,6 +25,7 @@ add_library(StateAMR::StateAMR ALIAS StateAMR)
 target_include_directories(StateAMR
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../EventBus/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 

@@ -12,28 +12,28 @@ class StateAMR;
 class IStateAMR
 {
     public:
-        virtual std::string name() const = 0;
         virtual ~IStateAMR() = default;
         virtual void onEnter() = 0;
         virtual void onExit() = 0;
+        virtual AMRStateType type() const = 0;
 };
 
 class IdleStateAMR : public IStateAMR
 {
     public:
         static IdleStateAMR& instance();
-        std::string name() const override;
         void onEnter(void) override;
         void onExit(void) override;
+        AMRStateType type() const override { return AMRStateType::IDLE; }
 };
 
 class BusyStateAMR : public IStateAMR
 {
     public:
         static BusyStateAMR& instance();
-        std::string name() const override;
         void onEnter(void) override;
         void onExit(void) override;
+        AMRStateType type() const override { return AMRStateType::BUSY; }
         
 };
 
@@ -41,19 +41,20 @@ class ErrorStateAMR : public IStateAMR
 {
     public:
         static ErrorStateAMR& instance();
-        std::string name() const override;
         void onEnter(void) override;
         void onExit(void) override;
+        AMRStateType type() const override { return AMRStateType::ERROR; }
 };
 
 class StateAMR
 {
     private:
         IStateAMR *state_;
-        StateAMR():state_(&IdleStateAMR::instance()){};
+        StateAMR():state_(&IdleStateAMR::instance()),currentStateType_(AMRStateType::IDLE){};
+        AMRStateType currentStateType_;
     public:
         static StateAMR& instance();
         void changeState(IStateAMR& newState);
-        std::string nameState() const;
+        AMRStateType getCurrentStateType() const { return currentStateType_; }
 };
 #endif
