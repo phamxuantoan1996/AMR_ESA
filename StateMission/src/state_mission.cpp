@@ -5,31 +5,34 @@
 StateMission::StateMission():state_(&CreateStateMission::instance()){}
 void StateMission::create()
 {
-    state_->create(*this);
-}
-void StateMission::assign()
-{
-    state_->assign(*this);
+    state_->create();
 }
 void StateMission::executeJob()
 {
-    state_->executeJob(*this);
+    state_->executeJob();
 }
 void StateMission::complete()
 {
-    state_->complete(*this);
+    state_->complete();
 }
-void StateMission::error()
+void StateMission::fail()
 {
-    state_->error(*this);
+    state_->fail();
+}
+void StateMission::pause()
+{
+    state_->pause();
 }
 void StateMission::changeState(IStateMission& newState)
 {
+    if (state_ == &newState)
+    {
+        return;
+    }
+    state_->onExit();
     state_ = &newState;
-}
-std::string StateMission::nameState() const
-{
-    return state_->name();
+    newState.onEnter();
+    current_state_type_ = newState.getType();
 }
 
 
@@ -39,31 +42,9 @@ CreateStateMission& CreateStateMission::instance()
     static CreateStateMission instance;
     return instance;
 }
-void CreateStateMission::create(StateMission& state_mission)
+void CreateStateMission::create()
 {
     std::cout << "Creating state.\n";
-    //transition state
-    state_mission.changeState(AssignStateMission::instance());
-}
-std::string CreateStateMission::name() const {
-    return "Created";
-}
-
-// AssignStateMission
-AssignStateMission& AssignStateMission::instance()
-{
-    static AssignStateMission instance;
-    return instance;
-}
-void AssignStateMission::assign(StateMission& state_mission)
-{
-    std::cout << "Assigning state.\n";
-    //transition state
-    state_mission.changeState(ExecuteJobStateMission::instance());
-};
-std::string AssignStateMission::name() const
-{
-    return "Assigned";
 }
 
 // ExecuteJobStateMission
@@ -72,16 +53,9 @@ ExecuteJobStateMission& ExecuteJobStateMission::instance()
     static ExecuteJobStateMission instance;
     return instance;
 }
-void ExecuteJobStateMission::executeJob(StateMission& state_mission)
+void ExecuteJobStateMission::executeJob()
 {
     std::cout << "Executing job\n";
-    //success
-    state_mission.changeState(CompleteStateMission::instance());
-    //failure
-}
-std::string ExecuteJobStateMission::name() const
-{
-    return "Executing";
 }
 
 //CompleteStateMission
@@ -90,13 +64,9 @@ CompleteStateMission& CompleteStateMission::instance()
     static CompleteStateMission instance;
     return instance;
 }
-void CompleteStateMission::complete(StateMission& state_mission)
+void CompleteStateMission::complete()
 {
     std::cout << "Complete mission\n";
-}
-std::string CompleteStateMission::name() const
-{
-    return "Completed";
 }
 
 //FailStateMission
@@ -105,23 +75,18 @@ FailStateMission& FailStateMission::instance()
     static FailStateMission instance;
     return instance;
 }
-void FailStateMission::error(StateMission& state_mission)
+void FailStateMission::fail()
 {
-    std::cout << "Error\n";
-}
-std::string FailStateMission::name() const
-{
-    return "Error";
+    std::cout << "Failed mission\n";
 }
 
-//
-int main(int argc,char* argv[])
+//PauseStateMission
+PauseStateMission& PauseStateMission::instance()
 {
-    StateMission state;
-    state.create();
-    state.assign();
-    state.executeJob();
-    state.complete();
-
-    return 0;
+    static PauseStateMission instance;
+    return instance;
+}
+void PauseStateMission::pause()
+{
+    std::cout << "Paused mission\n";
 }
