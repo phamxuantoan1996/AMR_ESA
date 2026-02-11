@@ -99,17 +99,17 @@ std::string CompleteStateMission::name() const
     return "Completed";
 }
 
-//ErrorStateMission
-ErrorStateMission& ErrorStateMission::instance()
+//FailStateMission
+FailStateMission& FailStateMission::instance()
 {
-    static ErrorStateMission instance;
+    static FailStateMission instance;
     return instance;
 }
-void ErrorStateMission::error(StateMission& state_mission)
+void FailStateMission::error(StateMission& state_mission)
 {
     std::cout << "Error\n";
 }
-std::string ErrorStateMission::name() const
+std::string FailStateMission::name() const
 {
     return "Error";
 }

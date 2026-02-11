@@ -74,9 +74,9 @@ class CompleteStateMission : public IStateMission {
         std::string name() const override;
 };
 
-class ErrorStateMission : public IStateMission {
+class FailStateMission : public IStateMission {
     public:
-        static ErrorStateMission& instance();
+        static FailStateMission& instance();
         void error(StateMission& state_mission) override;
         std::string name() const override;
 };
