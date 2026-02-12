@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(StateAMR)
+find_dependency(StateMission)
+include("${CMAKE_CURRENT_LIST_DIR}/AMRStateMachineTargets.cmake")
