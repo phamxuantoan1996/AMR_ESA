@@ -107,27 +107,6 @@ void AMRStateMachine::requestTransition(AMRStateType new_state)
     // valid transition
     AMRStateType old = current_state_;
     current_state_ = new_state;
-    
-    // switch(current_state_)
-    // {
-    //     case AMRStateType::IDLE:
-    //     {
-    //         state_amr_.changeState(IdleStateAMR::instance());
-    //         break;
-    //     }
-    //     case AMRStateType::BUSY:
-    //     {
-    //         state_amr_.changeState(BusyStateAMR::instance());
-    //         break;
-    //     }
-    //     case AMRStateType::ERROR:
-    //     {
-    //         state_amr_.changeState(ErrorStateAMR::instance());
-    //         break;
-    //     }
-    //     default:
-    //         break;
-    // }
     state_amr_.changeState(*state_factory_.at(new_state));
 
     EventBus::instance().publish(
