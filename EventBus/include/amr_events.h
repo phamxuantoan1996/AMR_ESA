@@ -8,10 +8,11 @@ struct AMRStateChangedEvent
     AMRStateType to;
 };
 
-struct MissionStateChangedEvent
+struct InvalidTransitionEvent
 {
-    MissionStateType from;
-    MissionStateType to;
+    /* data */
+    AMRStateType from;
+    AMRStateType to;
 };
 
 #endif

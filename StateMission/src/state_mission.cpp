@@ -1,6 +1,6 @@
 #include <iostream>
 #include "state_mission.h"
-#include "amr_events.h"
+#include "mission_events.h"
 #include "event_bus.h"
 
 
@@ -28,7 +28,7 @@ void StateMission::pause()
 {
     state_->pause();
 }
-void StateMission::changeState(IStateMission& newState)
+void StateMission:: changeState(IStateMission& newState)
 {
     if (state_ == &newState)
     {
