@@ -17,7 +17,7 @@ include(CMakePackageConfigHelpers)
 
 # ---------- LIBRARY ----------
 add_library(MissionJob STATIC
-    src/amr_state_machine.cpp
+    src/mission_job.cpp
 )
 
 # Alias chuẩn
