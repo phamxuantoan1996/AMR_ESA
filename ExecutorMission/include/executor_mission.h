@@ -10,17 +10,18 @@
 #include <chrono>
 
 #include <vector>
+#include <atomic>
 #include <mission_job.h>
 
 class ExecutorMission {
     public:
-        ExecutorMission();
-        ~ExecutorMission();
+        ExecutorMission(){};
+        ~ExecutorMission(){};
 
         void start();
         void stop();
 
-        void submit();
+        void submit(std::vector<std::unique_ptr<IJobStep>> jobs);
 
         void pause();
         void resume();
@@ -34,11 +35,13 @@ class ExecutorMission {
         std::mutex mutex_;
         std::condition_variable cv_;
 
-
-
+        std::vector<std::unique_ptr<IJobStep>> job_list_;
+        bool has_job{false};
+        bool system_running_{false};
+        int current_index_{0};
+        std::atomic<bool> pause_{false};
+        std::atomic<bool> cancel_{false};
     
-
-
 };
 
 #endif

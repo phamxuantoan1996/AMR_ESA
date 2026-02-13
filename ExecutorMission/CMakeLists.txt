@@ -28,8 +28,8 @@ add_library(ExecutorMission::ExecutorMission ALIAS ExecutorMission)
 target_include_directories(ExecutorMission
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include_common>
-        # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../EventBus/include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include_common>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../EventBus/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
