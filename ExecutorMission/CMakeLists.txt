@@ -11,13 +11,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find dependency
 # find_package(StateAMR REQUIRED)
 find_package(StateMission REQUIRED)
+find_package(MissionJob REQUIRED)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 # ---------- LIBRARY ----------
 add_library(ExecutorMission STATIC
-    src/amr_state_machine.cpp
+    src/executor_mission.cpp
 )
 
 # Alias chuẩn
@@ -36,6 +37,7 @@ target_link_libraries(ExecutorMission
     PUBLIC 
     # StateAMR::StateAMR 
     StateMission::StateMission
+    MissionJob::MissionJob
 )
 
 # ---------- INSTALL LIB ----------
