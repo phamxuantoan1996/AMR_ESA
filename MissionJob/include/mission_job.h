@@ -34,15 +34,15 @@ struct LiftHeightTarget {
 using LiftTarget = std::variant<LiftLevelTarget,LiftHeightTarget>;
 
 class IJobStep {
-    public:
-        virtual ~IJobStep() = default;
+    protected:
         virtual void onEnter() = 0;
         virtual void onExit() = 0;
+        virtual JobStatus onTick() = 0;
+    public:
+        virtual ~IJobStep() = default;
         virtual void onPause() = 0;
         virtual void onResume() = 0;
         virtual void onCancel() = 0;
-        virtual JobStatus onTick() = 0;
-
         JobStatus tick()
         {
             if(status_ == JobStatus::Init)
