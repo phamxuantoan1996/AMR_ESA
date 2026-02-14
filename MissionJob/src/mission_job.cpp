@@ -1,5 +1,6 @@
 #include "mission_job.h"
 #include <iostream>
+/****************Move Job****************/
 void JobStepMovePath::onEnter()
 {
     std::cout << "Robot started moving\n";
@@ -9,8 +10,18 @@ void JobStepMovePath::onExit()
 {
     std::cout << "Robot moved to " << target_ << std::endl;
 };
-
-/****************Move Job****************/
+void JobStepMovePath::onCancel()
+{
+    std::cout << "cancel moving path\n";
+}
+void JobStepMovePath::onPause()
+{
+    std::cout << "pause moving path\n";
+}
+void JobStepMovePath::onResume()
+{
+    std::cout << "resume moving path\n";
+}
 JobStatus JobStepMovePath::onTick()
 {
     // robot reached
@@ -42,7 +53,7 @@ void LiftControlLevel::stop()
 {
     std::cout << "Lift stopped\n";
 }
-
+/*---------------------*/
 void LiftControlHeight::moveTo(const LiftTarget& target)
 {
     auto levelTarget = std::get<LiftHeightTarget>(target);
@@ -60,7 +71,7 @@ void LiftControlHeight::stop()
 {
     std::cout << "Lift stopped\n";
 }
-
+/*---------------------*/
 void JobStepLift::onEnter()
 {
     if(started_)
@@ -75,6 +86,21 @@ void JobStepLift::onExit()
         lift_.stop();
     std::cout << "Job Lift Exit\n";
 }
+void JobStepLift::onCancel()
+{
+    lift_.stop();
+    std::cout << "cancel lifting\n";
+}
+void JobStepLift::onPause()
+{
+    lift_.stop();
+    std::cout << "pause lifting\n";
+}
+void JobStepLift::onResume()
+{
+    lift_.moveTo(target_);
+    std::cout << "resume lifting\n";
+}
 JobStatus JobStepLift::onTick()
 {
     if(lift_.hasError())
@@ -83,3 +109,4 @@ JobStatus JobStepLift::onTick()
         return JobStatus::Finished;
     return JobStatus::Running;
 }
+/******************************************************/

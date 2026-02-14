@@ -7,6 +7,7 @@ enum class JobStatus
 {
     Init,
     Running,
+    Paused,
     Finished,
     Failed
 };
@@ -37,6 +38,9 @@ class IJobStep {
         virtual ~IJobStep() = default;
         virtual void onEnter() = 0;
         virtual void onExit() = 0;
+        virtual void onPause() = 0;
+        virtual void onResume() = 0;
+        virtual void onCancel() = 0;
         virtual JobStatus onTick() = 0;
 
         JobStatus tick()
@@ -71,6 +75,9 @@ class JobStepMovePath : public IJobStep {
         };
         void onEnter() override;
         void onExit() override;
+        void onPause() override;
+        void onResume() override;
+        void onCancel() override;
         JobStatus onTick() override;
     private:
         std::string target_;
@@ -107,6 +114,9 @@ class JobStepLift : public IJobStep {
         JobStepLift(ILiftControl& lift,LiftTarget target):lift_(lift),target_(target){}
         void onEnter() override;
         void onExit() override;
+        void onCancel() override;
+        void onPause() override;
+        void onResume() override;
         JobStatus onTick() override;
     private:
         ILiftControl& lift_;
@@ -117,12 +127,13 @@ class JobStepLift : public IJobStep {
 
 
 /*Fork Job*/
-class JobStepFork : public IJobStep {
-    public:
-        void onEnter() override;
-        void onExit() override;
-        JobStatus onTick() override;
-};
+// class JobStepFork : public IJobStep {
+//     public:
+//         void onEnter() override;
+//         void onExit() override;
+//         void onPause() override;
+//         JobStatus onTick() override;
+// };
 /***********************************/
 
 #endif

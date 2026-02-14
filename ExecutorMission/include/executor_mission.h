@@ -41,6 +41,7 @@ class ExecutorMission {
         int current_index_{0};
         std::atomic<bool> pause_{false};
         std::atomic<bool> cancel_{false};
+        std::atomic<bool> resume_{false};
     
 };
 

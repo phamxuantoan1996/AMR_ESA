@@ -25,19 +25,32 @@ void ExecutorMission::workerLoop()
 
         while(current_index_ < job_list_.size())
         {
+            auto& job = job_list_[current_index_];
             if(cancel_)
             {
+                //cancel job
+                std::cout << "Cancel mission\n";
+                job->onCancel();
                 cancel_ = false;
                 break;
             }
 
             if(pause_)
             {
-                std::cout << "Mission pause\n";
-                continue;
+                //pause job
+                std::cout << "Pause mission\n";
+                job->onPause();
+                pause_ = false;
             }
 
-            auto& job = job_list_[current_index_];
+            if(resume_)
+            {
+                //resume job
+                std::cout << "Resume mission\n";
+                job->onResume();
+                resume_ = false;
+            }
+
             auto status = job->tick();
             if(status == JobStatus::Finished)
             {
@@ -71,7 +84,7 @@ void ExecutorMission::pause()
 
 void ExecutorMission::resume()
 {
-    pause_ = false;
+    resume_ = true;
 }
 
 void ExecutorMission::start()
